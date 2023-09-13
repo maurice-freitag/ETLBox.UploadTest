@@ -12,7 +12,6 @@
     <PackageReference Include="ETLBox.Parquet" Version="3.0.0" />
     <PackageReference Include="ETLBox.SqlServer" Version="3.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="7.0.0" />
-    <PackageReference Include="Parquet.Net" Version="4.16.4" />
   </ItemGroup>
 
 </Project>
