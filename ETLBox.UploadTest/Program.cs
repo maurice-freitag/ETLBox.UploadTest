@@ -1,7 +1,7 @@
-﻿using ETLBox.ControlFlow;
+﻿using ETLBox.Connection;
+using ETLBox.ControlFlow.Tasks;
 using ETLBox.DataFlow;
-using ETLBox.Parquet;
-using ETLBox.SqlServer;
+using ETLBox.DataFlow.Connectors;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
@@ -19,7 +19,7 @@ namespace ETLBox.UploadTest
 
         public static async Task Main()
         {
-            Settings.LogInstance = GetLogger();
+            Logging.Logging.LogInstance = GetLogger();
             await PrepareDataAsync().ConfigureAwait(false);
             await ExportDataAsync().ConfigureAwait(false);
         }
@@ -42,7 +42,7 @@ namespace ETLBox.UploadTest
             using var connectionManager = new SqlConnectionManager(sqlServerConnectionString);
             var source = new DbSource<MyModel>(connectionManager) { Sql = MyModel.Sql };
 
-            var destination = new ParquetDestination<MyModel>(GetFileName(0), ResourceType.AzureBlob);
+            var destination = new ParquetDestinationEx<MyModel>(GetFileName(0), ResourceType.AzureBlob);
             destination.AzureBlobStorage.ConnectionString = storageAccountConnectionString;
             destination.AzureBlobStorage.ContainerName = containerName;
             destination.AzureBlobStorage.BlockBlobOpenWriteOptions = new()
